@@ -11,7 +11,7 @@
     methods: {
       async fetchData() {
         try {
-          const response = await fetch('/items/show-all/money'); // Замените URL на ваш источник данных
+          const response = await fetch('http://localhost:3001/items/show-all/money'); // Замените URL на ваш источник данных
           const data = await response.json();
           this.items = data; // Сохраняем полученные данные в переменную items
         } catch (error) {

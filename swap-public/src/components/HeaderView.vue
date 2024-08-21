@@ -1,19 +1,30 @@
 <script>
-const COOKIES = document.cookie;
 export default {
   data() {
     return {
-          somenumber(){
-            console.log(COOKIES);
-          },
-          eraseCookie() {
-            localStorage.clear();
-            document.cookie = "token" + "=" + "; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
-            document.location.reload();
-          }
+      hasCookie: false // Переменная для хранения состояния наличия cookie
+    };
+  },
+  methods: {
+    setCookie(){
+      document.cookie = 'user=SomeUser'
+    },  
+    showCookie(){
+      console.log("cookie is" ,this.hasCookie)
+    }, 
+    checkCookie() {
+      // Проверяем наличие определённого cookie (например, 'user')
+      const cookieName = 'token'; // Укажите имя cookie
+      const cookies = document.cookie.split('; ');
+      const foundCookie = cookies.find(cookie => cookie.startsWith(`${cookieName}=`));
+      this.hasCookie = !!foundCookie; // Обновляем переменную состояния
     }
+  },
+  mounted() {
+    // Проверяем наличие cookie при загрузке компонента
+    this.checkCookie();
   }
-}
+};
 </script>
 
 
@@ -40,7 +51,8 @@ export default {
           <a class="nav-link" href="#">Контакты</a>
         </li>
       </ul>
-      <form v-if="COOKIES" class="form-inline my-2 my-lg-0">
+      <!-- <button @click="showCookie"  class="btn btn-outline-success my-2 my-sm-0" type="button">Войти</button> -->
+      <form v-if="!hasCookie" class="form-inline my-2 my-lg-0">
         <button @click="somenumber"  class="btn btn-outline-success my-2 my-sm-0" type="button">Войти</button>
         <button class="btn btn-primary ml-2" type="button">Регистрация</button>
       </form>

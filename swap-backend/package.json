@@ -1,9 +1,9 @@
 {
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "NODE_ENV=production node app.js",
+    "dev": "nodemon --legacy-watch --exitcrash app.js"
   },
   "dependencies": {
-    "@vue/cli": "^5.0.8",
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.6",
     "ejs": "^3.1.10",
@@ -11,7 +11,6 @@
     "express-validator": "^7.1.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.5.1",
-    "nodemon": "^3.1.4",
-    "vue": "^3.4.34"
+    "nodemon": "^3.1.4"
   }
 }

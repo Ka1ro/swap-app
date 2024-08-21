@@ -3,7 +3,7 @@
     data() {
       return {
         userData: {},
-        avatarUrl: '/static/imgs/standartAvatar.jpg'
+        avatarUrl: '../imgs/standartAvatar.jpg'
         // login: localStorage.getItem('login')// Здесь будут храниться полученные данные
       };
     },
