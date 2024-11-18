@@ -2,11 +2,12 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 
 
 const userValidation = require('./validation/userValidator');
 const itemValidation = require('./validation/itemValidator');
-const {createUser, loginUser, authMe} = require('./db/db-requests/userRequests');
+const {createUser, loginUser, authMe, getUserInfoById} = require('./db/db-requests/userRequests');
 
 const {itemCreate, itemUpdate, itemDelete, getAllInCollection} = require('./db/db-requests/itemRequests');
 
@@ -23,6 +24,12 @@ mongoose.connect(mongoUrl)
 
 app.use(express.json());
 app.use(cookieParser());
+const corsConfig = {
+  credentials: true,
+  origin: true,
+};
+app.use(cors(corsConfig));
+
 
 
 // app.get('/main', authMe, (req, res)=>{
@@ -34,7 +41,7 @@ app.get('/', (req,res)=>{
 
 app.post('/auth/reg', userValidation, createUser);
 app.post('/auth/login', userValidation, loginUser);
-app.get('/auth/me', authMe );
+app.get('/auth/me', authMe, getUserInfoById);
 
 app.get('/items/show-all/:collectionName', getAllInCollection);
 

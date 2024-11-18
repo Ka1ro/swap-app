@@ -63,19 +63,36 @@ async function loginUser(req, res){
 function authMe(req, res, next){
   // const token = (req.headers.authorization ||'').replace(/Bearer\s?/, '');
   const token = req.cookies.token;
+  console.log("request to auth user", req.cookies);
   if(token){
     try {
       let decoded = jwt.verify(token, "secretKey");
       req.userId = decoded._id
+      console.log("Here is user Id", req.userId);
       next();
     } catch (error) {
       console.log(error);
       return res.status(405).json({msg: "invalid authentification"});
     }
   }else{
-    return res.status(403).json({msg:"no auth"});
+    return res.status(403).json({msg:"no auth here, no token"});
   }
 };
+
+async function getUserInfoById(req, res){
+  try {
+    const userInfo = await UserModel.findOne({_id : req.userId});
+    const {passwordHash, _id, role, updatedAt, __v, items,  ...userData} = userInfo._doc;
+    if(userInfo){
+      res.status(200).json(userData);
+    }else{
+      res.status(405).json({msg:"bad request"});
+    }
+  } catch (error) {
+    res.status(401).json({msg:"error in getting users info"})
+  }
+  
+}
 
 
 
@@ -83,6 +100,7 @@ function authMe(req, res, next){
 module.exports = {
   createUser,
   loginUser,
-  authMe
+  authMe,
+  getUserInfoById
 }
 

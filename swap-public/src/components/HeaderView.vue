@@ -18,7 +18,15 @@ export default {
       const cookies = document.cookie.split('; ');
       const foundCookie = cookies.find(cookie => cookie.startsWith(`${cookieName}=`));
       this.hasCookie = !!foundCookie; // Обновляем переменную состояния
-    }
+    },
+    eraseCookie() {
+        localStorage.clear();
+        document.cookie = "token" + "=" + "; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+        document.location.reload();
+      },
+      goToLoginPage() {
+        this.$router.push("/login");
+      }
   },
   mounted() {
     // Проверяем наличие cookie при загрузке компонента
@@ -53,7 +61,7 @@ export default {
       </ul>
       <!-- <button @click="showCookie"  class="btn btn-outline-success my-2 my-sm-0" type="button">Войти</button> -->
       <form v-if="!hasCookie" class="form-inline my-2 my-lg-0">
-        <button @click="somenumber"  class="btn btn-outline-success my-2 my-sm-0" type="button">Войти</button>
+        <button @click="goToLoginPage"  class="btn btn-outline-success my-2 my-sm-0" type="button">Войти</button>
         <button class="btn btn-primary ml-2" type="button">Регистрация</button>
       </form>
       <form v-else class="form-inline my-2 my-lg-0">
